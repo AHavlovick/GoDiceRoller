@@ -3,21 +3,37 @@ package main
 import (
   "fmt"
   "math/rand"
-  "os"
-  "strconv"
+  "flag"
   "time"
 )
 
 func main() {
   rand.Seed(time.Now().UnixNano())
-  n := os.Args[1]
-  num, err := strconv.Atoi(n)
-  if err != nil {
-    fmt.Println(err)
+  sides := flag.Int("sides", 6, "number of sides")
+  dice := flag.Int("dice", 1, "number of dice")
+
+  flag.Parse()
+  if *sides <= 0 || *dice <= 0 {
+    fmt.Println()
   }
-  fmt.Println(generateRandom(num))
+
+  fmt.Println("sides:", *sides)
+  fmt.Println("dice:", *dice)
+
+  rolls := GenerateRolls(*sides, *dice)
+  fmt.Println(rolls)
+  fmt.Println(len(rolls))
 }
 
-func generateRandom( n int) int {
+func GenerateRolls( s, d int ) []int {
+  rolls := []int{}
+  for i := 1; i <= d; i++ {
+    roll := generateRandom(s)
+    rolls = append(rolls, roll)
+  }
+  return rolls
+}
+
+func generateRandom( n int ) int {
   return rand.Intn(n)+1
 }
