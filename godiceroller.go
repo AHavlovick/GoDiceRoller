@@ -21,13 +21,12 @@ type UserInput struct {
   Rolls []int
 }
 
-// Custom error handling
+// Error creates custom error
 func (e *CustomError) Error() string {
   return fmt.Sprintf("Error: %s-->%s:<%d>", e.Msg, e.Arg, e.Val)
 }
 
-// Set user Input to Struct
-func InitializeUserInput(s, d int) *UserInput {
+func initializeUserInput(s, d int) *UserInput {
     return &UserInput{
       Sides: s,
       Dice: d,
@@ -35,6 +34,7 @@ func InitializeUserInput(s, d int) *UserInput {
     }
 }
 
+// ValidateInputs returns errors for negative integers
 func ValidateInputs(s, d int) []error {
   errors := []error{}
   intErrMsg := "Values must be positive integers"
@@ -54,6 +54,7 @@ func ValidateInputs(s, d int) []error {
   return nil
 }
 
+// GenerateRolls creates a slice of random integers dice long
 func GenerateRolls( s, d int ) []int {
   rolls := []int{}
   for i := 1; i <= d; i++ {
@@ -77,7 +78,7 @@ func main() {
   dice := flag.Int("dice", 1, "number of dice")
   flag.Parse()
 
-  userInputs := InitializeUserInput(*sides, *dice)
+  userInputs := initializeUserInput(*sides, *dice)
   if len(userInputs.Errors) > 0 {
     for _, errval := range userInputs.Errors {
       fmt.Println(errval)
