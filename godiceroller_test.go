@@ -15,7 +15,7 @@ func TestRollsLength(t *testing.T) {
 
 // Test various integer mixes for expected errors
 func TestInputValidation(t *testing.T) {
-  var sideerr, diceerr error
+	var sideerr, diceerr error
 
 	tests := []struct {
 		testname      string
